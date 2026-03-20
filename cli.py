@@ -22,6 +22,6 @@ def main():
             break
         else:
             print("Invalid Choice, Try again (1/2/3/0).")
-
+#only run the main if the file is executed directly
 if __name__=="__main__":
     main()

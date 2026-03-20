@@ -1,5 +1,5 @@
 #cli/menu
-from service import add_task, list_task
+from service import add_task, list_task, complete_task
 #connecting functions from service.py
 
 def show_menu():
@@ -24,7 +24,9 @@ def main():
         elif choice=="2":
             list_task(tasks)
         elif choice=="3":
-            print("Complete tasks:(not implemented yet)")
+            task_id=int(input("Enter the ID to complete: "))
+            complete_task(tasks, task_id)
+            print("Task Completed.")
         elif choice=="0":
             print("Thank you for using this programe.\n")
             break

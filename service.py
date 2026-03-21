@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import json
 #main logic
 def add_task(tasks, title, due_date):
     task_id=len(tasks)+1
@@ -68,8 +69,19 @@ def list_due_week(tasks):
                 status="✓"
             else:
                 status=" "
-            print(f"{task["task_id"]}. {task["title"]} [{status}] \
+            print(f"{task["id"]}. {task["title"]} [{status}] \
 (Due: {due})")
             found=True
     if not found:
         print("No tasks due in next seven days.")
+
+def save_tasks(tasks):
+    with open("tasks.json", "w") as file:
+        json.dump(tasks, file, indent=4)
+
+def load_tasks():
+    try:
+        with open("tasks.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []

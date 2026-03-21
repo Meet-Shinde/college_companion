@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "title": "maths hw",
+        "done": false,
+        "due_date": "2026-3-21"
+    },
+    {
+        "id": 2,
+        "title": "DSA",
+        "done": true,
+        "due_date": "2026-03-28"
+    },
+    {
+        "id": 3,
+        "title": "baby",
+        "done": false,
+        "due_date": "2027-04-07"
+    }
+]

@@ -24,9 +24,15 @@ def main():
         elif choice=="2":
             list_task(tasks)
         elif choice=="3":
-            task_id=int(input("Enter the ID to complete: "))
-            complete_task(tasks, task_id)
-            print("Task Completed.")
+            try:
+                task_id=int(input("Enter the ID to complete: "))
+                success=complete_task(tasks, task_id)
+                if success:
+                    print("Task Completed.")
+                else:
+                    print("Task not found.")
+            except ValueError:
+                print("Invalid Input. Enter a number.")
         elif choice=="0":
             print("Thank you for using this programe.\n")
             break

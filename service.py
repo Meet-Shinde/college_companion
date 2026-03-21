@@ -25,5 +25,5 @@ def complete_task(tasks, task_id):
     for task in tasks:
         if task["id"]==task_id:
             task["done"]=True
-            return
-    print("Task not found.")
+            return True
+    return False

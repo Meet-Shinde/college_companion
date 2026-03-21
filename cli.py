@@ -1,5 +1,5 @@
 #cli/menu
-from service import add_task, list_task, complete_task
+from service import add_task, list_task, complete_task, list_due_today, list_due_week
 #connecting functions from service.py
 
 def show_menu():
@@ -7,6 +7,8 @@ def show_menu():
     print("1] Add tasks")
     print("2] List tasks")
     print("3] Complete tasks")
+    print("4] List tasks due today")
+    print("5] List tasks due in 7 days")
     print("0] Exit Menu")
 
 def main():
@@ -16,11 +18,12 @@ def main():
         choice=input("Enter your Choice: ").strip()
         if choice=="1":
             title=input("Add a task: ").strip()
-            if title:
-                add_task(tasks, title)
+            due_date=input("Enter due date (YYYY-MM-DD): ").strip()
+            if title and due_date:
+                add_task(tasks, title, due_date)
                 print("Task added.")
             else:
-                print("Task title cannot be empty.")
+                print("Task title and due date cannot be empty.")
         elif choice=="2":
             list_task(tasks)
         elif choice=="3":
@@ -33,8 +36,12 @@ def main():
                     print("Task not found.")
             except ValueError:
                 print("Invalid Input. Enter a number.")
+        elif choice=="4":
+            list_due_today(tasks)
+        elif choice=="5":
+            list_due_week(tasks)
         elif choice=="0":
-            print("Thank you for using this programe.\n")
+            print("Thank you for using this program.\n")
             break
         else:
             print("Invalid Choice, Try again (1/2/3/0).")

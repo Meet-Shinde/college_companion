@@ -12,7 +12,7 @@ def add_task(tasks, title, due_date):
     tasks.append(task)
     #basically created a list of dictionaries
 
-def list_task(tasks):
+def list_tasks(tasks):
     if not tasks: #checks whether the list is empty
         print("No tasks yet.")
         return
@@ -82,6 +82,34 @@ def save_tasks(tasks):
 def load_tasks():
     try:
         with open("tasks.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+
+def add_note(notes, content):
+    note_id=len(notes)+1
+    note={
+        "id":note_id,
+        "content":content
+    }
+    notes.append(note)
+    #again created a list of dictionaries
+
+def list_notes(notes):
+    if not notes:
+        print("No notes saved.")
+        return
+    print("\nNotes: ")
+    for note in notes:
+        print(f"{note["id"]}. {note["content"]}")
+
+def save_notes(notes):
+    with open("notes.json", "w") as file:
+        json.dump(notes, file, indent=4)
+
+def load_notes():
+    try:
+        with open("notes.json", "r") as file:
             return json.load(file)
     except FileNotFoundError:
         return []

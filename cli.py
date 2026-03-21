@@ -1,12 +1,16 @@
 #cli/menu
 from service import (
     add_task, 
-    list_task, 
+    list_tasks, 
     complete_task, 
     list_due_today, 
     list_due_week,
     save_tasks,
     load_tasks,
+    add_note,
+    list_notes,
+    save_notes,
+    load_notes
 )
 #connecting functions from service.py
 
@@ -17,10 +21,13 @@ def show_menu():
     print("3] Complete tasks")
     print("4] List tasks due today")
     print("5] List tasks due in 7 days")
+    print("6] Add notes")
+    print("7] List notes")
     print("0] Exit Menu")
 
 def main():
     tasks=load_tasks()
+    notes=load_notes()
     while True:
         show_menu()
         choice=input("Enter your Choice: ").strip()
@@ -34,7 +41,7 @@ def main():
                 print("Task title and due date cannot be empty.")
             save_tasks(tasks)
         elif choice=="2":
-            list_task(tasks)
+            list_tasks(tasks)
         elif choice=="3":
             try:
                 task_id=int(input("Enter the ID to complete: "))
@@ -50,6 +57,17 @@ def main():
             list_due_today(tasks)
         elif choice=="5":
             list_due_week(tasks)
+        elif choice=="6":
+            #addnote
+            content=input("Add a note: ").strip()
+            if content:
+                add_note(notes, content)
+                save_notes(notes)
+                print("Note added.")
+            else:
+                print("Note cannot be empty.")
+        elif choice=="7":
+            list_notes(notes)
         elif choice=="0":
             print("Thank you for using this program.\n")
             break

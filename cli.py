@@ -11,8 +11,11 @@ from service import (
     list_notes,
     save_notes,
     load_notes
-)
-#connecting functions from service.py
+)#connecting functions from service.py
+from db import (
+    create_tables,
+    insert_tasks
+)#connecting functions from db.py
 
 def show_menu():
     print("\n=== College Companion ===")
@@ -26,6 +29,7 @@ def show_menu():
     print("0] Exit Menu")
 
 def main():
+    create_tables()
     tasks=load_tasks()
     notes=load_notes()
     while True:

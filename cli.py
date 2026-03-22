@@ -35,8 +35,11 @@ def main():
             title=input("Add a task: ").strip()
             due_date=input("Enter due date (YYYY-MM-DD): ").strip()
             if title and due_date:
-                add_task(tasks, title, due_date)
-                print("Task added.")
+                try:
+                    add_task(tasks, title, due_date)
+                    print("Task added.")
+                except ValueError:
+                    print("Invalid date format. Use YYYY-MM-DD.")
             else:
                 print("Task title and due date cannot be empty.")
             save_tasks(tasks)

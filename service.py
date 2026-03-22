@@ -2,12 +2,14 @@
 from datetime import datetime, timedelta
 import json
 def add_task(tasks, title, due_date):
+    datetime.strptime(due_date, "%Y-%m-%d") #validating
     task_id=len(tasks)+1
     task={
         "id":task_id,
         "title":title,
         "done":False,
-        "due_date": due_date
+        "due_date": due_date,
+        "created_at": datetime.now().strftime("%Y-%m-%d")
     }
     tasks.append(task)
     #basically created a list of dictionaries
@@ -23,7 +25,7 @@ def list_tasks(tasks):
         else:
             status=" "
         print(f"{task["id"]}. {task["title"]} [{status}] \
-(Due: {task["due_date"]})")
+(Due: {task["due_date"]}, Created: {task["created_at"]})")
 
 def complete_task(tasks, task_id):
     for task in tasks:
@@ -37,11 +39,7 @@ def list_due_today(tasks):
     found=False
     print("\nTasks due today: ")
     for task in tasks:
-        try:
-            due=datetime.strptime(task["due_date"], "%Y-%m-%d").date()
-        except ValueError:
-            print("Invalid Input. Due date needs to be in this format: (YYYY-MM-DD)")
-            return
+        due=datetime.strptime(task["due_date"], "%Y-%m-%d").date()
         if due==today:
             if task["done"]:
                 status="✓"
@@ -59,11 +57,7 @@ def list_due_week(tasks):
     found=False
     print("\nTasks due in the next seven days: ")
     for task in tasks:
-        try:
-            due=datetime.strptime(task["due_date"], "%Y-%m-%d").date()
-        except ValueError:
-            print("Invalid Input. Due date needs to be in this format: (YYYY-MM-DD)")
-            return        
+        due=datetime.strptime(task["due_date"], "%Y-%m-%d").date()       
         if due==end_date:
             if task["done"]:
                 status="✓"
@@ -90,7 +84,8 @@ def add_note(notes, content):
     note_id=len(notes)+1
     note={
         "id":note_id,
-        "content":content
+        "content":content,
+        "created_at": datetime.now().strftime("%Y-%m-%d")
     }
     notes.append(note)
     #again created a list of dictionaries
@@ -101,7 +96,7 @@ def list_notes(notes):
         return
     print("\nNotes: ")
     for note in notes:
-        print(f"{note["id"]}. {note["content"]}")
+        print(f"{note["id"]}. {note["content"]} (Created: {note["created_at"]})")
 
 def save_notes(notes):
     with open("notes.json", "w") as file:

@@ -1,6 +1,6 @@
+#main logic
 from datetime import datetime, timedelta
 import json
-#main logic
 def add_task(tasks, title, due_date):
     task_id=len(tasks)+1
     task={

@@ -1,31 +1,29 @@
 #main logic
 from datetime import datetime, timedelta
+from db import(
+    insert_task,
+    get_all_tasks
+)
 import json
-def add_task(tasks, title, due_date):
+def add_task(title, due_date):
     datetime.strptime(due_date, "%Y-%m-%d") #validating
-    task_id=len(tasks)+1
-    task={
-        "id":task_id,
-        "title":title,
-        "done":False,
-        "due_date": due_date,
-        "created_at": datetime.now().strftime("%Y-%m-%d")
-    }
-    tasks.append(task)
-    #basically created a list of dictionaries
+    created_at = datetime.now().strftime("%Y-%m-%d")
+    insert_task(title, due_date, created_at)
 
-def list_tasks(tasks):
+def list_tasks():
+    tasks=get_all_tasks()
     if not tasks: #checks whether the list is empty
         print("No tasks yet.")
         return
     print(f"\nTasks:")
     for task in tasks:
-        if task["done"]:
+        task_id, title, due_date, created_at, completed = task
+        if completed:
             status="✓"
         else:
             status=" "
-        print(f"{task["id"]}. {task["title"]} [{status}] \
-(Due: {task["due_date"]}, Created: {task["created_at"]})")
+        print(f"{task_id}. {title} [{status}] \
+(Due: {due_date}, Created: {created_at})")
 
 def complete_task(tasks, task_id):
     for task in tasks:

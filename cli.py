@@ -14,7 +14,6 @@ from service import (
 )#connecting functions from service.py
 from db import (
     create_tables,
-    insert_tasks
 )#connecting functions from db.py
 
 def show_menu():
@@ -30,7 +29,6 @@ def show_menu():
 
 def main():
     create_tables()
-    tasks=load_tasks()
     notes=load_notes()
     while True:
         show_menu()
@@ -40,17 +38,16 @@ def main():
             due_date=input("Enter due date (YYYY-MM-DD): ").strip()
             if title and due_date:
                 try:
-                    add_task(tasks, title, due_date)
+                    add_task(title, due_date)
                     print("Task added.")
                 except ValueError:
                     print("Invalid date format. Use YYYY-MM-DD.")
             else:
                 print("Task title and due date cannot be empty.")
-            save_tasks(tasks)
         elif choice=="2":
-            list_tasks(tasks)
+            list_tasks()
         elif choice=="3":
-            try:
+            '''try:
                 task_id=int(input("Enter the ID to complete: "))
                 success=complete_task(tasks, task_id)
                 if success:
@@ -59,11 +56,14 @@ def main():
                     print("Task not found.")
                 save_tasks(tasks)
             except ValueError:
-                print("Invalid Input. Enter a number.")
+                print("Invalid Input. Enter a number.")'''
+            print("This feature will be migrated to sqlite next.")
         elif choice=="4":
-            list_due_today(tasks)
+            #list_due_today(tasks)
+            print("This feature will be migrated to sqlite next.")
         elif choice=="5":
-            list_due_week(tasks)
+            #list_due_week(tasks)
+            print("This feature will be migrated to sqlite next.")
         elif choice=="6":
             #addnote
             content=input("Add a note: ").strip()

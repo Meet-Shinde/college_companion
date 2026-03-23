@@ -17,22 +17,22 @@ def create_tables():
     )
     ''') #executes SQL commands
     conn.commit() #saves changes
-    conn.close #closes
+    conn.close() #closes
 
-def insert_tasks(title, due_date, created_at): #adds one row
+def insert_task(title, due_date, created_at): #adds one row
     conn=get_connection()
     cursor=conn.cursor()
     cursor.execute('''
     INSERT INTO tasks (title, due_date, created_at)
     VALUES (?, ?, ?)
     ''', (title, due_date, created_at))
-    conn.commit
-    conn.close
+    conn.commit()
+    conn.close()
 
 def get_all_tasks():
     conn=get_connection()
     cursor=conn.cursor()
-    cursor.execute("SELECT * from tasks")
+    cursor.execute("SELECT * FROM tasks")
     tasks=cursor.fetchall()
     #fetchall returns a list of rows in tuple form
     #so tasks=list of tuple

@@ -38,3 +38,29 @@ def get_all_tasks():
     #so tasks=list of tuple
     conn.close()
     return tasks
+
+def complete_task_db(task_id):
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute('''
+    UPDATE tasks
+    SET completed = 1
+    WHERE id = ?
+    ''', (task_id,))
+    conn.commit()
+    affected_rows=cursor.rowcount
+    conn.close()
+    return affected_rows
+    #rowcount can tell if the row was found/updated/deleted.
+
+def delete_task_db(task_id):
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute('''
+    DELETE FROM tasks
+    WHERE id = ?
+    ''', (task_id,))
+    conn.commit()
+    affected_rows=cursor.rowcount
+    conn.close()
+    return affected_rows

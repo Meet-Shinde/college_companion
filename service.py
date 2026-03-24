@@ -2,7 +2,9 @@
 from datetime import datetime, timedelta
 from db import(
     insert_task,
-    get_all_tasks
+    get_all_tasks,
+    complete_task_db,
+    delete_task_db
 )
 import json
 def add_task(title, due_date):
@@ -25,12 +27,11 @@ def list_tasks():
         print(f"{task_id}. {title} [{status}] \
 (Due: {due_date}, Created: {created_at})")
 
-def complete_task(tasks, task_id):
-    for task in tasks:
-        if task["id"]==task_id:
-            task["done"]=True
-            return True
-    return False
+def complete_task(task_id):
+    return complete_task_db(task_id)
+
+def delete_task(task_id):
+    return delete_task_db(task_id)
 
 def list_due_today(tasks):
     today=datetime.today().date()
@@ -66,17 +67,6 @@ def list_due_week(tasks):
             found=True
     if not found:
         print("No tasks due in next seven days.")
-
-def save_tasks(tasks):
-    with open("tasks.json", "w") as file:
-        json.dump(tasks, file, indent=4)
-
-def load_tasks():
-    try:
-        with open("tasks.json", "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return []
 
 def add_note(notes, content):
     note_id=len(notes)+1

@@ -6,7 +6,11 @@ from db import(
     complete_task_db,
     delete_task_db,
     get_tasks_due_between,
-    get_all_tasks_sorted
+    get_all_tasks_sorted,
+    insert_note,
+    get_all_notes,
+    delete_note_db,
+    export_tasks_to_csv
 )
 import json
 def add_task(title, due_date):
@@ -41,36 +45,24 @@ def list_tasks_sorted():
     tasks=get_all_tasks_sorted()
     display_tasks(tasks)
 
-def add_note(notes, content):
-    note_id=len(notes)+1
-    note={
-        "id":note_id,
-        "content":content,
-        "created_at": datetime.now().strftime("%Y-%m-%d")
-    }
-    notes.append(note)
-    #again created a list of dictionaries
+def add_note(content):
+    created_at=datetime.now().strftime("%Y-%m-%d")
+    insert_note(content, created_at)
 
-def list_notes(notes):
+def list_notes():
+    notes=get_all_notes()
     if not notes:
         print("No notes saved.")
         return
     print("\nNotes: ")
     for note in notes:
-        print(f"{note["id"]}. {note["content"]} (Created: {note["created_at"]})")
+        note_id, content, created_id = note
+        print(f"{note_id}. {content} (Created: {created_id})")
 
-def save_notes(notes):
-    with open("notes.json", "w") as file:
-        json.dump(notes, file, indent=4)
+def delete_note(note_id):
+    return delete_note_db(note_id)
 
-def load_notes():
-    try:
-        with open("notes.json", "r") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return []
-
-def display_tasks(tasks):
+def display_tasks(tasks): #Helper function
     if not tasks: #checks whether the list is empty
         print("No tasks yet.")
         return
@@ -83,3 +75,6 @@ def display_tasks(tasks):
             status=" "
         print(f"{task_id}. {title} [{status}] \
 (Due: {due_date}, Created: {created_at})")
+
+def export_tasks():
+    export_tasks_to_csv()

@@ -1,4 +1,4 @@
-#cli/menu ..
+#cli/menu
 from service import (
     add_task, 
     list_tasks, 
@@ -9,8 +9,8 @@ from service import (
     list_tasks_sorted,
     add_note,
     list_notes,
-    save_notes,
-    load_notes
+    delete_note,
+    export_tasks
 )#connecting functions from service.py
 from db import (
     create_tables,
@@ -27,11 +27,12 @@ def show_menu():
     print("7] List tasks sorted by due date.")
     print("8] Add notes")
     print("9] List notes")
+    print("10] Delete notes")
+    print("11] Export tasks to CSV")
     print("0] Exit Menu")
 
 def main():
     create_tables()
-    notes=load_notes()
     while True:
         show_menu()
         choice=input("Enter your Choice: ").strip()
@@ -85,13 +86,26 @@ def main():
             #addnote
             content=input("Add a note: ").strip()
             if content:
-                add_note(notes, content)
-                save_notes(notes)
+                add_note(content)
                 print("Note added.")
             else:
                 print("Note cannot be empty.")
         elif choice=="9":
-            list_notes(notes)
+            list_notes()
+        elif choice=="10":
+            try:
+                note_id=int(input("Enter the note ID to delete: "))
+                affected = delete_note(note_id)
+                if affected:
+                    print("Note deleted.")
+                else:
+                    print("Note not found.")
+            except ValueError:
+                print("Invalid input. Enter a number.")
+
+        elif choice=="11":
+            export_tasks()
+            print("Tasks exported to tasks_export.csv file.")
         elif choice=="0":
             print("Thank you for using this program.\n")
             break

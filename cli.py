@@ -4,8 +4,9 @@ from service import (
     list_tasks, 
     complete_task,
     delete_task,
-    list_due_today, 
-    list_due_week,
+    list_due_today,
+    list_due_in_days,
+    list_tasks_sorted,
     add_note,
     list_notes,
     save_notes,
@@ -22,9 +23,10 @@ def show_menu():
     print("3] Complete tasks")
     print("4] Delete tasks")
     print("5] List tasks due today")
-    print("6] List tasks due in 7 days")
-    print("7] Add notes")
-    print("8] List notes")
+    print("6] List tasks due in n days")
+    print("7] List tasks sorted by due date.")
+    print("8] Add notes")
+    print("9] List notes")
     print("0] Exit Menu")
 
 def main():
@@ -67,12 +69,19 @@ def main():
             except ValueError:
                 print("Invalid Input. Enter a number.")
         elif choice=="5":
-            #list_due_today(tasks)
-            print("This feature will be migrated to sqlite next.")
+            list_due_today()
         elif choice=="6":
-            #list_due_week(tasks)
-            print("This feature will be migrated to sqlite next.")
+            try:
+                days=int(input("Enter number of days: "))
+                if days<0:
+                    print("Enter a non-negative number.")
+                else:
+                    list_due_in_days(days)
+            except ValueError:
+                print("Invalid input. Enter a number.")
         elif choice=="7":
+            list_tasks_sorted()
+        elif choice=="8":
             #addnote
             content=input("Add a note: ").strip()
             if content:
@@ -81,7 +90,7 @@ def main():
                 print("Note added.")
             else:
                 print("Note cannot be empty.")
-        elif choice=="8":
+        elif choice=="9":
             list_notes(notes)
         elif choice=="0":
             print("Thank you for using this program.\n")

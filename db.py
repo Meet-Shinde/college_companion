@@ -64,3 +64,28 @@ def delete_task_db(task_id):
     affected_rows=cursor.rowcount
     conn.close()
     return affected_rows
+
+def get_tasks_due_between(start_date, end_date):
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute("""
+    SELECT * FROM tasks
+    WHERE due_date BETWEEN ? AND ?
+        AND completed=0
+    ORDER BY due_date ASC
+    """, (start_date, end_date))
+    tasks=cursor.fetchall()
+    conn.close()
+    return tasks
+    #ASC = Ascending order
+
+def get_all_tasks_sorted():
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute("""
+    SELECT * FROM tasks
+    ORDER BY due_date ASC
+    """)
+    tasks=cursor.fetchall()
+    conn.close()
+    return tasks

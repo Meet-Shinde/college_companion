@@ -1,15 +1,15 @@
 #cli/menu
 from service import (
     add_task, 
-    list_tasks, 
     complete_task,
     delete_task,
-    list_due_today,
-    list_due_in_days,
-    list_tasks_sorted,
+    get_all_tasks_data,
+    get_tasks_due_today_data,
+    get_tasks_due_in_days_data,
+    get_all_tasks_sorted_data,
     add_note,
-    list_notes,
     delete_note,
+    get_all_notes_data,
     export_tasks
 )#connecting functions from service.py
 from db import (
@@ -48,7 +48,8 @@ def main():
             else:
                 print("Task title and due date cannot be empty.")
         elif choice=="2":
-            list_tasks()
+            tasks=get_all_tasks_data()
+            display_tasks(tasks)
         elif choice=="3":
             try:
                 task_id=int(input("Enter the ID to complete: "))
@@ -70,18 +71,21 @@ def main():
             except ValueError:
                 print("Invalid Input. Enter a number.")
         elif choice=="5":
-            list_due_today()
+            tasks=get_tasks_due_today_data()
+            display_tasks(tasks)
         elif choice=="6":
             try:
                 days=int(input("Enter number of days: "))
                 if days<0:
                     print("Enter a non-negative number.")
                 else:
-                    list_due_in_days(days)
+                    tasks=get_tasks_due_in_days_data(days)
+                    display_tasks(tasks)
             except ValueError:
                 print("Invalid input. Enter a number.")
         elif choice=="7":
-            list_tasks_sorted()
+            tasks=get_all_tasks_sorted_data()
+            display_tasks(tasks)
         elif choice=="8":
             #addnote
             content=input("Add a note: ").strip()
@@ -91,7 +95,8 @@ def main():
             else:
                 print("Note cannot be empty.")
         elif choice=="9":
-            list_notes()
+            notes=get_all_notes_data()
+            display_notes(notes)
         elif choice=="10":
             try:
                 note_id=int(input("Enter the note ID to delete: "))
@@ -111,6 +116,27 @@ def main():
             break
         else:
             print("Invalid Choice, Try again (1/2/3/0).")
+
+def display_tasks(tasks):
+    if not tasks:
+        print("No tasks found.")
+        return
+    print("\nTasks:")
+    for task in tasks:
+        if task["completed"]:
+            status="✓"
+        else:
+            status=" "
+        print(f"{task["id"]}. {task["title"]} [{status}] \
+        (Due: {task["due_date"]}, Created: {task["created_at"]})")
+
+def display_notes(notes):
+    if not notes:
+        print("No notes saved.")
+        return
+    print("\nNotes: ")
+    for note in notes:
+        print(f"{note["id"]}. {note["content"]} (Created: {note["created_at"]})")
 
 #only run the main if the file is executed directly
 if __name__=="__main__":

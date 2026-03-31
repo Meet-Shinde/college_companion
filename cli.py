@@ -36,43 +36,56 @@ def main():
     while True:
         show_menu()
         choice=input("Enter your Choice: ").strip()
+
         if choice=="1":
             title=input("Add a task: ").strip()
             due_date=input("Enter due date (YYYY-MM-DD): ").strip()
-            if title and due_date:
-                try:
-                    add_task(title, due_date)
-                    print("Task added.")
-                except ValueError:
-                    print("Invalid date format. Use YYYY-MM-DD.")
-            else:
-                print("Task title and due date cannot be empty.")
+            try:
+                add_task(title, due_date)
+                print("Task added.")
+            except ValueError as e:
+                print(e)
+
         elif choice=="2":
             tasks=get_all_tasks_data()
             display_tasks(tasks)
+
         elif choice=="3":
+            raw_id=input("Enter the ID to complete: ")
             try:
-                task_id=int(input("Enter the ID to complete: "))
-                success=complete_task(task_id)
-                if success:
+                task_id=int(raw_id)
+            except ValueError:
+                print("Invalid input. Enter a valid integer ID.")
+                continue
+            try:
+                affected=complete_task(task_id)
+                if affected:
                     print("Task Completed.")
                 else:
                     print("Task not found.")
-            except ValueError:
-                print("Invalid Input. Enter a number.")
+            except ValueError as e:
+                print(e)
+
         elif choice=="4":
+            raw_id=input("Enter the ID to delete: ")
             try:
-                task_id=int(input("Enter the ID to complete: "))
-                success=delete_task(task_id)
-                if success:
+                task_id=int(raw_id)
+            except ValueError:
+                print("Invalid input. Enter a valid integer ID.")
+                continue
+            try:
+                affected=delete_task(task_id)
+                if affected:
                     print("Task Deleted.")
                 else:
                     print("Task not found.")
-            except ValueError:
-                print("Invalid Input. Enter a number.")
+            except ValueError as e:
+                print(e)
+
         elif choice=="5":
             tasks=get_tasks_due_today_data()
             display_tasks(tasks)
+
         elif choice=="6":
             try:
                 days=int(input("Enter number of days: "))
@@ -83,34 +96,43 @@ def main():
                     display_tasks(tasks)
             except ValueError:
                 print("Invalid input. Enter a number.")
+
         elif choice=="7":
             tasks=get_all_tasks_sorted_data()
             display_tasks(tasks)
+
         elif choice=="8":
-            #addnote
             content=input("Add a note: ").strip()
-            if content:
+            try:
                 add_note(content)
                 print("Note added.")
-            else:
-                print("Note cannot be empty.")
+            except ValueError as e:
+                print(e)
+
         elif choice=="9":
             notes=get_all_notes_data()
             display_notes(notes)
+
         elif choice=="10":
+            raw_id=input("Enter the ID to delete: ")
             try:
-                note_id=int(input("Enter the note ID to delete: "))
+                note_id=int(raw_id)
+            except ValueError:
+                print("Invalid input. Enter a valid integer ID.")
+                continue
+            try:
                 affected = delete_note(note_id)
                 if affected:
                     print("Note deleted.")
                 else:
                     print("Note not found.")
-            except ValueError:
-                print("Invalid input. Enter a number.")
+            except ValueError as e:
+                print(e)
 
         elif choice=="11":
             export_tasks()
             print("Tasks exported to tasks_export.csv file.")
+
         elif choice=="0":
             print("Thank you for using this program.\n")
             break
